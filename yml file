@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  web:
+    image: nginx
+    container_name: web-service
+    ports:
+      - '8000:80'
+  
+  db:
+    image: redis
+    container_name: redis-service

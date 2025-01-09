@@ -6,3 +6,10 @@ cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
 
 kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml
+
+kubectl get pods -n kube-system
+
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
+kubectl get nodes
+

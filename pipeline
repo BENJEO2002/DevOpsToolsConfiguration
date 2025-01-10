@@ -33,6 +33,24 @@ pipeline {
                 sh 'docker build -t ${DOCKER_IMAGE}:latest .'
             }
         }
+        
+        stage('Transfer Ansible Playbook') {
+            steps {
+                sshPublisher(
+    publishers: [
+        sshPublisherDesc(
+            configName: 'ansible-ssh-key', // Make sure this matches the ID in Jenkins
+            transfers: [
+                sshTransfer(
+                    sourceFiles: 'deploy-docker.yml',
+                    remoteDirectory: '/home/ansible/'
+                )
+            ]
+        )
+    ]
+)
+            }
+        }
 
         stage('Run Ansible Playbook') {
             steps {
@@ -42,6 +60,7 @@ pipeline {
         }
     }
 }
+
 
 
 
@@ -69,7 +88,8 @@ playbook (deploy-docker.yml )
 
 ---
 - name: Deploy Docker Container
-  hosts: all
+  hosts: localhost
+  connection: local  # Specify the connection type as local
   become: true
 
   tasks:
